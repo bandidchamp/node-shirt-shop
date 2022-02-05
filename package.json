@@ -3,5 +3,32 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "บัณฑิต คุ้มสวัสดิ์ <85699339+bandiddeaware@users.noreply.github.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon ./index.js"
+  },
+  "dependencies": {
+    "app-module-path": "^2.2.0",
+    "axios": "^0.21.1",
+    "body-parser": "1.15.0",
+    "cors": "^2.7.1",
+    "dotenv": "^10.0.0",
+    "ejs": "2.4.1",
+    "errorhandler": "1.4.3",
+    "express": "4.13.4",
+    "express-jwt": "3.3.0",
+    "express-session": "1.13.0",
+    "jsonwebtoken": "7.1.9",
+    "method-override": "2.3.5",
+    "methods": "1.1.2",
+    "morgan": "1.7.0",
+    "multer": "^1.4.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.15",
+    "passport": "0.3.2",
+    "passport-local": "1.0.0",
+    "pg": "^8.6.0",
+    "request": "2.69.0"
+  }
 }

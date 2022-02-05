@@ -1,0 +1,16 @@
+version: '3.0'
+services:
+  db:
+    container_name: ics_db
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: '${MYSQL_DB}'
+      MYSQL_ROOT: '${MYSQL_ROOT}'
+      MYSQL_ROOT_PASSWORD: '${MYSQL_PASSWORD}'
+    ports:
+      - '${MYSQL_PORT}:${MYSQL_PORT}'
+    expose: 
+      - '${MYSQL_PORT}'
+    volumes:
+      - ./db:/var/lib/mysql

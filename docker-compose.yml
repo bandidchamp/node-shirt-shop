@@ -14,3 +14,17 @@ services:
       - '${MYSQL_PORT}'
     volumes:
       - ./db:/var/lib/mysql
+
+  app:
+    container_name: ics_backend_app
+    build: 
+      context: .
+      dockerfile: Dockerfile_api
+    env_file: .env
+    ports:
+      - '${BACKEND_PORT}:${BACKEND_PORT}'
+    expose: 
+      - '${BACKEND_PORT}'
+    depends_on:
+      - db
+    restart: unless-stopped

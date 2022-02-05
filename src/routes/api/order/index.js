@@ -1,19 +1,19 @@
 var router = require('express').Router();
 
-router.use('/', require('./product'));
-router.use('/', require('./auth'))
-router.use('/', require('./order'))
-router.use('/', require('./address'))
+router.use("/order", require("./set_order"))
+router.use("/order", require("./get_order"))
+router.use("/order", require("./get_order_item"))
 
 router.use(function(err, req, res, next){
   if(err.name === 'ValidationError'){
-    return res.status(405).json({
+    return res.status(400).json({
       errors: Object.keys(err.errors).reduce(function(errors, key){
         errors[key] = err.errors[key].message;
         return errors;
       }, {})
     });
   }
+
   return next(err);
 });
 

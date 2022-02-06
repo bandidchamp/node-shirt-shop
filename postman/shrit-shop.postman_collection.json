@@ -1,0 +1,503 @@
+{
+	"info": {
+		"_postman_id": "351ae779-344a-42fe-8bca-dfc2d7b163f6",
+		"name": "shrit-shop",
+		"description": "Backend Developer Test Assignment.\n\n  \nOverview\n\nสถานการณ์ตัวอย่างลูกค้าต้องการระบบ E-Commerce Web Application สำหรับขายของ โดยสินค้าบนเว็บไซต์เป็นเสื้อยืดสำหรับหญิง และชาย (Gender) ที่มีการจัดหมวดหมู่สินค้า (Category) คือ Plain Color, Pattern, Figure และมี ขนาด (Size) ตั้งแต่ XS - XL ซึ่งราคาขึ้นอยู่กับหมวดหมู่สินค้า ขนาด และเพศผู้สวมใส่ ลูกค้าสามารถส่งคำสั่งสื่อผ่านเว็บไซต์โดยการเลือกสินค้าลงตะกร้าสินค้า Check Out บันทึกที่อยู่จัดส่ง พนักงานสามารถเรียกดูคำสั่งซื้อของแต่ละวันได้",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "get token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set('id',jsonData.id);\r",
+									"pm.collectionVariables.set('user_name',jsonData.user_name);\r",
+									"pm.collectionVariables.set('user_surname',jsonData.user_surname);\r",
+									"pm.collectionVariables.set('user_role',jsonData.user_role);\r",
+									"pm.collectionVariables.set('access_token', \"Bearer \" + jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"user1\",\r\n    \"password\": \"user1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/auth/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "get access token.\n\n*   อายุ token 10 วัน\n*   payload\n    *   id\n    *   user_name\n    *   user_surname\n    *   role\n    *   exp"
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "get product list filter",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/product?offset=0&limit=10&size=1&gender=1",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"description": "1: S, 2: M, 3: L, 4: XL, 5: 2XL, 6: 3XL, 7: 4XL, 8: 5XL"
+								},
+								{
+									"key": "catagory",
+									"value": "1",
+									"description": "1: Plain Color, 2: Pattern,  3: Figure",
+									"disabled": true
+								},
+								{
+									"key": "gender",
+									"value": "1",
+									"description": "1: หญิง, 2: ชาย"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get product list 10 piece",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/product?offset=0&limit=10",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"description": "1: S, 2: M, 3: L, 4: XL, 5: 2XL, 6: 3XL, 7: 4XL, 8: 5XL",
+									"disabled": true
+								},
+								{
+									"key": "catagory",
+									"value": "1",
+									"description": "1: Plain Color, 2: Pattern,  3: Figure",
+									"disabled": true
+								},
+								{
+									"key": "gender",
+									"value": "1",
+									"description": "1: หญิง, 2: ชาย",
+									"disabled": true
+								}
+							]
+						},
+						"description": "สามารถแสดงจำนวนสินค้าในแต่ละ Request เป็น 10 ชิ้นได้"
+					},
+					"response": []
+				},
+				{
+					"name": "get product list 20 piece",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/product?offset=0&limit=20",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"description": "1: S, 2: M, 3: L, 4: XL, 5: 2XL, 6: 3XL, 7: 4XL, 8: 5XL",
+									"disabled": true
+								},
+								{
+									"key": "catagory",
+									"value": "1",
+									"description": "1: Plain Color, 2: Pattern,  3: Figure",
+									"disabled": true
+								},
+								{
+									"key": "gender",
+									"value": "1",
+									"description": "1: หญิง, 2: ชาย",
+									"disabled": true
+								}
+							]
+						},
+						"description": "สามารถแสดงจำนวนสินค้าในแต่ละ Request เป็น 20 ชิ้นได้"
+					},
+					"response": []
+				},
+				{
+					"name": "get product list 50 piece",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/product?offset=0&limit=50",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								},
+								{
+									"key": "size",
+									"value": "1",
+									"description": "1: S, 2: M, 3: L, 4: XL, 5: 2XL, 6: 3XL, 7: 4XL, 8: 5XL",
+									"disabled": true
+								},
+								{
+									"key": "catagory",
+									"value": "1",
+									"description": "1: Plain Color, 2: Pattern,  3: Figure",
+									"disabled": true
+								},
+								{
+									"key": "gender",
+									"value": "1",
+									"description": "1: หญิง, 2: ชาย",
+									"disabled": true
+								}
+							]
+						},
+						"description": "สามารถแสดงจำนวนสินค้าในแต่ละ Request เป็น 50 ชิ้นได้"
+					},
+					"response": []
+				}
+			],
+			"description": "api สำหรับลิสรายการสินค้า"
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "set user address",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/address",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"address"
+							]
+						},
+						"description": "ลิสรายการที่อยู่ของลูกค้า\n\njwt token อยู่ใน header \\['**Authorization**'\\]"
+					},
+					"response": []
+				},
+				{
+					"name": "set user address",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"address\": \"23 streed 3 onlyway35\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/address",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"address"
+							]
+						},
+						"description": "เพิ่มข้อมูลที่อยู่ลูกค้า"
+					},
+					"response": []
+				},
+				{
+					"name": "set order",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"address_id\": 51,\r\n    \"product\": [\r\n        {\r\n            \"product\": 1110,\r\n            \"quantity\": 2\r\n        },{\r\n            \"product\": 1111,\r\n            \"quantity\": 8\r\n        },{\r\n            \"product\": 1112,\r\n            \"quantity\": 4\r\n        },{\r\n            \"product\": 1113,\r\n            \"quantity\": 1\r\n        },{\r\n            \"product\": 1114,\r\n            \"quantity\": 10\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}/order",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"order"
+							]
+						},
+						"description": "เพิ่มรายการการสั่งซื้อสินค้า"
+					},
+					"response": []
+				},
+				{
+					"name": "get order",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/order?offset=0&limit=5&status=1&start_time=2022-01-01 17:00:00&stop_time=2022-12-31 17:00:00",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"order"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "status",
+									"value": "1",
+									"description": "1: กำลังตรวจสอบการชำระเงิน, 2: จัดเตรียมสินค้าเรียบร้อย, 3: สินค้าอยู่ขั้นตอนจัดส่ง, 4: ส่งค้าส่งเรียบร้อยแล้ว"
+								},
+								{
+									"key": "start_time",
+									"value": "2022-01-01 17:00:00"
+								},
+								{
+									"key": "stop_time",
+									"value": "2022-12-31 17:00:00"
+								}
+							]
+						},
+						"description": "ลิสรายการสินค้า"
+					},
+					"response": []
+				},
+				{
+					"name": "get item in order",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/order/item?order_id=315",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"order",
+								"item"
+							],
+							"query": [
+								{
+									"key": "order_id",
+									"value": "315"
+								}
+							]
+						},
+						"description": "ลิสสินค้าจากที่มีอยู่ในรายการสินค้า"
+					},
+					"response": []
+				}
+			],
+			"description": "รายการคำสั่งซื้อ"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "domain",
+			"value": "http://localhost:11110/api",
+			"type": "string"
+		},
+		{
+			"key": "auth",
+			"value": ""
+		},
+		{
+			"key": "eno",
+			"value": ""
+		},
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "user_name",
+			"value": ""
+		},
+		{
+			"key": "user_surname",
+			"value": ""
+		},
+		{
+			"key": "user_role",
+			"value": ""
+		}
+	]
+}
